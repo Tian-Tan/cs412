@@ -1,0 +1,25 @@
+<!-- quotes/templates/quotes/show_all.html -->
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+
+        <h1>The quotes of Jean-Paul Sartre</h1>
+
+        <table>
+        <tr>
+                {% for image in images %}
+        <td>
+                <img src="{{image}}" class="show_all_img">
+        </td>
+                {% endfor %}
+        </tr>
+        <tr>
+                {% for quote in quotes %}
+        <td>
+                <p class="show_all_desc">{{quote}}</p>
+        </td>
+        {% endfor %}
+        </tr>
+        </table>
+
+{% endblock %}
