@@ -1,0 +1,29 @@
+<!-- restaurant/templates/restaurant/main.html -->
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+
+        <h1>Welcome to Delicious Pasta!</h1>
+
+        <table>
+                <tr>
+                        <td>
+                                <img src="https://lilluna.com/wp-content/uploads/2018/05/easy-spaghetti-resize-3.jpg">
+                        </td>
+                        <td>
+                                <p>We serve the most delicious pasta in town!</p>
+                                <p>Location: 123 Delicious Plaza, Delicioustown, MA</p>
+                                <p>Hours of operation (Monday - Sunday):</p>
+                                <ul style="list-style-type: none;">
+                                        <li>
+                                                Opening time: 11am
+                                        </li>
+                                        <li>
+                                                Closing time: 10pm
+                                        </li>
+                                </ul>
+                        </td>
+                </tr>
+        </table>
+
+{% endblock %}

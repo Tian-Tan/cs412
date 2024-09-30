@@ -1,0 +1,28 @@
+<!-- restaurant/templates/restaurant/base.html
+ A template with common HTML code that will be re-used by all of the other templates. -->
+
+ {% load static %}
+<html>
+    <head>
+        <title>Delicious pasta</title>
+        <link rel="stylesheet" href="https://cs-people.bu.edu/tanth/cs412/quotes_styles.css">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url 'main' %}"> Main Page</a>
+                </li>
+                <li>
+                    <a href="{% url 'order' %}"> Order</a>
+                </li>
+            </ul>
+        </nav>
+        {% block content %}
+        <!-- fill in this section with specific page detail  -->
+        {% endblock %}
+        <hr>
+        Application created by Tian Herng Tan <br>
+        Current time: {{current_time}}
+    </body>
+</html>
