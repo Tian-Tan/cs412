@@ -1,0 +1,94 @@
+/* Style for the body */
+body {
+    background-color: #2F4F4F; /* Darker slate gray for a richer tone */
+    color: white;
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Slightly more modern font */
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling for the navigation bar */
+nav {
+    background-color: #1C1C1C; /* Darker navbar */
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav ul li {
+    float: left;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px; /* Slightly larger padding */
+    display: block;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+nav ul li a:hover {
+    background-color: #575757; /* Hover effect */
+    color: #FFD700; /* Golden color on hover */
+}
+
+/* Constant size for all images */
+img {
+    width: 400px;
+    height: 500px;
+    object-fit: cover; /* Ensures the image retains aspect ratio */
+    border-radius: 8px; /* Adds rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow around the table */
+}
+
+table th, table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px;
+    border: 1px solid #444; /* Darker border */
+    color: white;
+}
+
+table th {
+    background-color: #1C1C1C; /* Darker background for headers */
+    font-weight: bold;
+}
+
+table td {
+    background-color: #2E2E2E; /* Slightly lighter than header */
+}
+
+table tr:hover {
+    background-color: #3A3A3A; /* Row hover effect */
+}
+
+/* Make sure the table looks good on mobile devices */
+@media (max-width: 768px) {
+    table, th, td {
+        display: block;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 15px;
+    }
+
+    table td {
+        text-align: left;
+    }
+}
