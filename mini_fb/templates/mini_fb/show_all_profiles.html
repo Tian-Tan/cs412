@@ -25,16 +25,22 @@
                 {% for p in profiles %}
                 <tr>
                     <td>
+                        <a href="{% url 'show_profile' p.pk %}">
                         {{p.first_name}}
+                        </a>
                     </td>
                     <td>
+                        <a href="{% url 'show_profile' p.pk %}">
                         {{p.last_name}}
+                        </a>
                     </td>
                     <td>
                         {{p.city}}
                     </td>
                     <td>
+                        <a href="{% url 'show_profile' p.pk %}">
                         <img src="{{p.profile_image_url}}" alt="{{p.profile_image_url}}">
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}

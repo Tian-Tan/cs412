@@ -8,4 +8,5 @@ from . import views
 urlpatterns = [
     ## all the urls to this app
     path(r'', views.ShowAllView.as_view(), name="show_all_profiles"),
+    path(r'profile/<int:pk>', views.ShowProfilePageView.as_view(), name="show_profile"),
 ]
