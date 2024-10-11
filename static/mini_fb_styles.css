@@ -39,6 +39,19 @@ nav ul li a:hover {
     color: #FFD700; /* Golden color on hover */
 }
 
+/* General link (a) styling */
+a {
+    color: #00CED1; /* Turquoise color for links */
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease; /* Smooth transitions for hover effects */
+    border-bottom: 1px solid transparent; /* Underline effect on hover */
+}
+
+a:hover {
+    color: #FFD700; /* Golden color on hover */
+    border-bottom: 1px solid #FFD700; /* Golden underline on hover */
+}
+
 /* Constant size for all images */
 img {
     width: 400px;
