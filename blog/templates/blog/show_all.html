@@ -11,7 +11,12 @@
      {% for a in articles %}
      <article>
         <a href="{% url 'article' a.pk %}">
-        <img src="{{a.image_url}}" alt="{{a.image_url}}">
+        <!-- <img src="{{a.image_file.url}}" alt="{{a.image_file.url}}"> -->
+        {% if a.image_file %}
+        <img src="{{a.image_file.url}}" alt="{{a.image_file.url}}">
+        {% else %}
+        No image_file available
+        {% endif %}
         </a>
         <div>
         <h2><a href="{% url 'article' a.pk %}">{{a.title}}</a></h2> <!-- a.pk is the primary key on the Article identified by a -->
