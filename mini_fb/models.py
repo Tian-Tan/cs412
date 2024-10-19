@@ -40,3 +40,24 @@ class StatusMessage(models.Model):
         ''' Returns a string representation of this StatusMessage
         '''
         return f'Status Message by {self.profile.first_name} {self.profile.last_name} on {self.timestamp}'
+    
+    def get_images(self):
+        '''Returns a QuerySet of all Images on this StatusMessage
+        '''
+        # Use the ORM to retrieve Images for which the FK is this StatusMessage
+        images = Image.objects.filter(status=self)
+        return images
+    
+class Image(models.Model):
+    ''' Encapsulates the idea of an image file
+    '''
+
+    # data attributes of an Image
+    status = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+    image_file = models.ImageField(blank=True)
+
+    def __str__(self):
+        ''' Returns a string representation of this Image
+        '''
+        return f'Image of {self.status} at {self.timestamp}'

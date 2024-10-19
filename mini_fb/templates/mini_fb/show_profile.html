@@ -28,10 +28,13 @@
     <div>
         {% if profile.get_status_messages %}
         <h2>Status Messages</h2>
-        {% for p in profile.get_status_messages %}
+        {% for status in profile.get_status_messages %}
         <div>
-            <strong>On {{p.timestamp}}</strong>
-            <p>{{p.message}}</p>
+            <strong>On {{status.timestamp}}</strong>
+            <p>{{status.message}}</p>
+            {% for image in status.get_images %}
+            <img src='{{image.image_file.url}}' alt='{{image.image_file.url}}'>
+            {% endfor %}
         </div>
         {% endfor %}
         {% else %}
