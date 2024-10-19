@@ -22,6 +22,12 @@
                         <h4><a href="{% url 'create_status' profile.pk %}">Add a status</a></h4>
                     </td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <h4><a href="{% url 'update_profile' profile.pk %}">Update profile</a></h4>
+                    </td>
+                </tr>
             </table>
         </div>
     </article>
@@ -32,6 +38,9 @@
         <div>
             <strong>On {{status.timestamp}}</strong>
             <p>{{status.message}}</p>
+            <a href="{%url 'delete_status' status.pk %}">Delete</a>
+            <a href="{%url 'update_status' status.pk %}">Update</a>
+            <br>
             {% for image in status.get_images %}
             <img src='{{image.image_file.url}}' alt='{{image.image_file.url}}'>
             {% endfor %}
