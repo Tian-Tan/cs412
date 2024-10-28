@@ -2,10 +2,10 @@
 # define the views for the blog app
 
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import *
 from .forms import *
 from django.urls import reverse
@@ -136,3 +136,29 @@ class UpdateStatusMessageView(UpdateView):
         
         # reverse to show the article page
         return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+class CreateFriendView(View):
+    ''' A view to create a new Friend relation
+    '''
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        other_pk = self.kwargs['other_pk']
+        profile = Profile.objects.get(pk=pk)
+        other_profile = Profile.objects.get(pk=other_pk)
+        profile.add_friend(other_profile)
+
+        return redirect(reverse('show_profile', kwargs={'pk':pk}))
+    
+class ShowFriendSuggestionsView(DetailView):
+    ''' View to show friend suggestions
+    '''
+    model = Profile # the model to display
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile'
+
+class ShowNewsFeedView(DetailView):
+    ''' View to show all the status messages by the friends of this profile
+    '''
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'profile'

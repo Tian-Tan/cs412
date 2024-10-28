@@ -90,6 +90,22 @@ table tr:hover {
     background-color: #3A3A3A; /* Row hover effect */
 }
 
+/* Small icon style for images inside #profile-friends */
+#profile-friends {
+    display: flex;
+    gap: 10px; /* Space between icons */
+    justify-content: start; /* Align icons horizontally */
+    flex-wrap: wrap; /* Wrap to the next line if there are too many icons */
+}
+
+#profile-friends img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Maintain aspect ratio within the icon */
+    border-radius: 50%; /* Circle shape for icons */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for icons */
+}
+
 /* Make sure the table looks good on mobile devices */
 @media (max-width: 768px) {
     table, th, td {

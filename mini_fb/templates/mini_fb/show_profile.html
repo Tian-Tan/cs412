@@ -3,6 +3,9 @@
 
 {% block content %}
 <h1>Show Profile</h1>
+<form action="{% url 'show_news_feed' profile.pk %}">
+    <input type="submit" name="News Feed" value="News Feed">
+</form>
 <main class="gird-container">
      <article>
         <div>
@@ -31,6 +34,22 @@
             </table>
         </div>
     </article>
+    <div id="profile-friends">
+        {% if profile.get_friends %}
+        <h2>Friends</h2> <br>
+        {% for friend in profile.get_friends %}
+        <a href="{% url 'show_profile' friend.pk %}">
+            <img src="{{friend.profile_image_url}}" alt="{{friend.profile_image_url}}">
+        </a>
+        <a href="{% url 'show_profile' friend.pk %}">
+        <p>{{friend.first_name}} {{friend.last_name}}</p>
+        </a>
+        {% endfor %}
+        {% else %}
+        <h2>No Friends</h2>
+        {% endif %}
+    </div>
+    <h3><a href="{% url 'show_friend_suggestions' profile.pk %}">Friend Suggestions</a></h3>
     <div>
         {% if profile.get_status_messages %}
         <h2>Status Messages</h2>

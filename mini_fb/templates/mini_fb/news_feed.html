@@ -1,0 +1,40 @@
+<!-- mini_fb/templates/mini_fb/news_feed.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>{{profile.first_name}} {{profile.last_name}}'s News Feed</h1>
+<main class="gird-container">
+     <article>
+        <div>
+            {% if profile.get_news_feed %}
+            <table>
+                <!-- loop to display each StatusMessage -->
+                {% for status in profile.get_news_feed %}
+                <tr>
+                    <td>
+                        {{status.profile.first_name}} {{status.profile.last_name}}
+                    </td>
+                    <td>
+                        {{status.timestamp}}
+                    </td>
+                    <td>
+                        {{status.message}}
+                    </td>
+                    <td>
+                        {% for img in status.get_images %}
+                        <img src="{{img.image_file.url}}" alt="{{img.image_file.url}}">
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <h2>No status messages from friends available</h2>
+            {% endif %}
+        </div>
+    </article>
+    <form action="{% url 'show_profile' profile.pk %}">
+        <input type="submit" name="Back" value="Back">
+    </form>
+</main>
+{% endblock %}
