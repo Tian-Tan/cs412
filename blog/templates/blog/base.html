@@ -11,15 +11,33 @@
     <body>
         <nav>
             <ul>
+                <!-- These urls do not depend on which user is logged in -->
                 <li>
                     <a href="{% url 'show_all' %}">Show All</a>
                 </li>
                 <li>
                     <a href="{% url 'random' %}"> Random</a>
                 </li>
+                <!-- These urls requires a logged in user -->
+                {% if request.user.is_authenticated %}
                 <li>
                     <a href="{% url 'create_article' %}"> Create Article</a>
                 </li>
+                <li>
+                    <a href="{% url 'logout' %}"> Logout</a>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="logout">
+                    </form>
+                </li>
+                <li>{{request.user}} is logged in </li>
+                {% else %}
+                <!-- This url should show when no one is logged in -->
+                <li>
+                    <a href="{% url 'login' %}"> Login</a>
+                    <p>Not logged in </p>
+                </li>
+                {% endif %}
             </ul>
         </nav>
         {% block content %}
