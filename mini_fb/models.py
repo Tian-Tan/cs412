@@ -2,6 +2,7 @@
 # Define the data object for our application
 from django.db import models
 import random
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Profile(models.Model):
     city = models.TextField(blank=False)
     email_address = models.TextField(blank=False)
     profile_image_url = models.URLField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         ''' Returns a string representation of this object

@@ -3,9 +3,11 @@
 
 {% block content %}
 <h1>Show Profile</h1>
-<form action="{% url 'show_news_feed' profile.pk %}">
+{% if is_owner %}
+<form action="{% url 'show_news_feed' %}">
     <input type="submit" name="News Feed" value="News Feed">
 </form>
+{% endif %}
 <main class="gird-container">
      <article>
         <div>
@@ -19,18 +21,20 @@
                         From {{profile.city}}
                     </td>
                 </tr>
+                {% if is_owner %}
                 <tr>
                     <td></td>
                     <td>
-                        <h4><a href="{% url 'create_status' profile.pk %}">Add a status</a></h4>
+                        <h4><a href="{% url 'create_status' %}">Add a status</a></h4>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <h4><a href="{% url 'update_profile' profile.pk %}">Update profile</a></h4>
+                        <h4><a href="{% url 'update_profile' %}">Update profile</a></h4>
                     </td>
                 </tr>
+                {% endif %}
             </table>
         </div>
     </article>
@@ -49,7 +53,9 @@
         <h2>No Friends</h2>
         {% endif %}
     </div>
-    <h3><a href="{% url 'show_friend_suggestions' profile.pk %}">Friend Suggestions</a></h3>
+    {% if is_owner %}
+    <h3><a href="{% url 'show_friend_suggestions' %}">Friend Suggestions</a></h3>
+    {% endif %}
     <div>
         {% if profile.get_status_messages %}
         <h2>Status Messages</h2>
@@ -57,8 +63,10 @@
         <div>
             <strong>On {{status.timestamp}}</strong>
             <p>{{status.message}}</p>
+            {% if is_owner %}
             <a href="{%url 'delete_status' status.pk %}">Delete</a>
             <a href="{%url 'update_status' status.pk %}">Update</a>
+            {% endif %}
             <br>
             {% for image in status.get_images %}
             <img src='{{image.image_file.url}}' alt='{{image.image_file.url}}'>

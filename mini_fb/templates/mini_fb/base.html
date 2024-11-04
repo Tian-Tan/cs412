@@ -2,7 +2,7 @@
  A template with common HTML code that will be re-used by all of the other templates. -->
 
  
- {% load static %}
+{% load static %}
 <html>
     <head>
         <title>Mini Fb</title>
@@ -20,6 +20,25 @@
                 <li>
                     <a href="{% url 'create_profile' %}"> Create profile</a>
                 </li>
+                {% if request.user.is_authenticated %}
+                <li>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="logout">
+                    </form>
+                </li>
+                <li>
+                    Status: {{request.user}} is logged in
+                </li>
+                {% else %}
+                <!-- This url should show when no one is logged in -->
+                <li>
+                    <a href="{% url 'login' %}"> Login</a>
+                </li>
+                <li>
+                    Status: Not logged in
+                </li>
+                {% endif %}
             </ul>
         </nav>
         {% block content %}
