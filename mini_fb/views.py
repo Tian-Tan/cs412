@@ -46,6 +46,34 @@ class CreateProfileView(CreateView):
     form_class = CreateProfileForm
     template_name = "mini_fb/create_profile_form.html"
 
+    def get_context_data(self, **kwargs):
+        ''' Add UserCreationForm to the context '''
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        # Reconstruct the UserCreationForm with POST data
+        user_form = UserCreationForm(self.request.POST)
+        
+        # Check if both forms are valid
+        if user_form.is_valid():
+            # Save the User instance
+            user = user_form.save()
+            print(f'CreateProfileView: created user {user}')
+            # log the User in
+            login(self.request, user)
+            print(f'CreateProfileView: {user} logged in')
+            
+            # Attach the User to the Profile instance before saving
+            form.instance.user = user
+            
+            # Save the Profile and complete the process by calling superclass form_valid
+            return super().form_valid(form)
+        else:
+            # If the user form is invalid, re-render the form with errors
+            return self.form_invalid(form)
+
     def get_success_url(self):
         ''' Return the URL to redirect to on success
         '''
