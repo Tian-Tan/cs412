@@ -1,0 +1,95 @@
+<!-- voter_analytics/search.html -->
+<h3>Filter Voter Listing</h3>
+<form action="{% url 'graphs' %}">
+    <table>
+        <tr>
+            <th>Party Affiliation:</th>
+            <td>
+                <select name="party_affiliation">
+                    <option value="">--Select--</option>
+                    <option value="D">D</option>
+                    <option value="R">R</option>
+                    <option value="U">U</option>
+                    <option value="J">J</option>
+                    <option value="A">A</option>
+                    <option value="CC">CC</option>
+                    <option value="X">X</option>
+                    <option value="L">L</option>
+                    <option value="Q">Q</option>
+                    <option value="S">S</option>
+                    <option value="FF">FF</option>
+                    <option value="G">G</option>
+                    <option value="HH">HH</option>
+                    <option value="T">T</option>
+                    <option value="AA">AA</option>
+                    <option value="GG">GG</option>
+                    <option value="Z">Z</option>
+                    <option value="O">O</option>
+                    <option value="P">P</option>
+                    <option value="E">E</option>
+                    <option value="V">V</option>
+                    <option value="H">H</option>
+                    <option value="Y">Y</option>
+                    <option value="W">W</option>
+                    <option value="EE">EE</option>
+                    <option value="K">K</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Minimum Date of Birth:</th>
+            <td>
+                <select name="min_dob">
+                    <option value="">--Select Year--</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Maximum Date of Birth:</th>
+            <td>
+                <select name="max_dob">
+                    <option value="">--Select Year--</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        
+        <tr>
+            <th>Voter Score:</th>
+            <td>
+                <select name="voter_score">
+                    <option value="">--Select Score--</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Voted in Specific Elections:</th>
+            <td>
+                <input type="checkbox" name="v20state" value="yes">v20state<br>
+                <input type="checkbox" name="v21town" value="yes">v21town<br>
+                <input type="checkbox" name="v21primary" value="yes">v21primary<br>
+                <input type="checkbox" name="v22general" value="yes">v22general<br>
+                <input type="checkbox" name="v23town" value="yes">v23town
+            </td>
+        </tr>
+        
+        <tr>
+            <td></td>
+            <td><input type="submit" value="submit"></td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,56 @@
+<!-- templates/voter_analytics/voter_detail.html -->
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Voter detail</h1>
+
+    <div class="row">
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Street Address</th>
+                <th>Zip Code</th>
+                <th>Date of Birth</th>
+                <th>Date of Registration</th>
+                <th>Party Affiliation</th>
+                <th>Precinct Number</th>
+                <th>Voted in State 2020</th>
+                <th>Voted in Town 2021</th>
+                <th>Voted in Primary 2021</th>
+                <th>Voted in General 2022</th>
+                <th>Voted in Town 2023</th>
+                <th>Voter Score</th>
+            </tr>
+
+            <tr>
+                
+                <td>{{v.first_name}}</td>
+                <td>{{v.last_name}}</td>
+                <td>{{v.apt_no}} {{v.st_no}} {{v.st_name}}</td>
+                <td>{{v.zip_code}}</td>    
+                <td>{{v.dof_b}}</td>
+                <td>{{v.dof_reg}}</td>
+                <td>{{v.party_aff}}</td>
+                <td>{{v.precinct_no}}</td>
+                <td>{{v.v20state}}</td>
+                <td>{{v.v21town}}</td>
+                <td>{{v.v21primary}}</td>
+                <td>{{v.v22general}}</td>
+                <td>{{v.v23town}}</td>
+                <td>{{v.voter_score}}</td>
+            </tr>
+    
+        </table>
+        <div>
+            <h2><a href="https://www.google.com/maps/?q={{v.apt_no}} {{v.st_no}} {{v.st_name}} {{v.zip_code}}">Google map link for this voter</a></h2>
+        </div>
+        <div>
+            <!-- {{bar_div|safe}} -->
+        </div>
+        <div>
+            <!-- {{pie_div|safe}} -->
+        </div>
+    </div>
+    
+{% endblock %}
