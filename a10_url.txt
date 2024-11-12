@@ -1,0 +1,1 @@
+https://cs412-gamma.vercel.app/voter_analytics
