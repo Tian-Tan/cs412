@@ -40,7 +40,7 @@ class Book(models.Model):
     def __str__(self):
         return f'{self.title} by {self.author}'
 
-class Borrows(models.Model):
+class Borrow(models.Model):
     ''' Allows many-to-many mapping between Profiles and Books
     '''
     # data attributes for a Borrow object
@@ -48,7 +48,7 @@ class Borrows(models.Model):
     book = models.ForeignKey("Book", on_delete=models.CASCADE)
     checkout_date = models.DateTimeField(auto_now=True)
     due_date = models.DateTimeField(default=(now() + timedelta(weeks=1))) # set automatically to 1 week from now
-    returned_date = models.DateTimeField()
+    returned_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.profile.first_name} {self.profile.last_name} borrowed {self.book.title}'

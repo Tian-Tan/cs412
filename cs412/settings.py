@@ -99,6 +99,12 @@ WSGI_APPLICATION = 'cs412.wsgi.application'
 #         'PORT': env("DATABASE_PORT"),
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation

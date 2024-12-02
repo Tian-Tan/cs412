@@ -3,35 +3,19 @@
 
 {% block content %}
 <h1>Show all Books</h1>
-<main class="gird-container">
-     <article>
-        <div>
-            <table>
-                <tr>
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Author
-                    </th>
-                </tr>
-                <!-- loop to display each Books -->
-                {% for b in books %}
-                <tr>
-                    <td>
-                        <a href="#">
-                        {{b.title}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="#">
-                        {{b.author}}
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </article>
-</main>
+<div class="container-fluid mt-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-4 justify-content-end">
+        {% for b in books %}
+            <div class="col">
+                <div class="card bg-light mb-3" style="width: 16rem;">
+                    <img class="card-img-top" src="{{b.cover_image.url}}" alt="{{b.cover_image.url}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{b.title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{b.author}}</h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

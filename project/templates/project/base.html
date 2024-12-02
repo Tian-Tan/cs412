@@ -5,17 +5,33 @@
 <html>
     <head>
         <title>Library Management System</title>
+
+        <!-- favicon -->
+        <link rel="icon" href="{% static 'favicon.ico' %}">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <body>
-        <nav>
-            <ul>
-                <li>
-                    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-                </li>
-                <li>
-                    <a href="{% url 'show_all_books' %}">All Books</a>
-                </li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'favicon.ico' %}" width="30" height="30" alt="">
+                Library Management System
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'show_all_profiles' %}">All Profiles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'show_all_books' %}">All Books</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex ms-auto">
+                <button type="button" class="btn btn-light me-2">Login</button>
+                <button type="button" class="btn btn-light">Sign up</button>
+            </div>
         </nav>
         {% block content %}
         <!-- Specific page details -->
