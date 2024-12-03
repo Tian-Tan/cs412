@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-# import environ
 
+## CS-WEBAPPS DEPLOYMENT CHANGE: remove environ packages and any environment variables
+# import environ
 # env = environ.Env()
 # environ.Env.read_env()
 
@@ -29,6 +30,7 @@ SECRET_KEY = 'django-insecure-r!-2#dvd3naopz*#su3-udn7jn3f(zeb7c5j-sm^o)fzrd2szq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+## CS-WEBAPPS DEPLOYMENT CHANGE: add cs-webapps.bu.edu to allowed_hosts
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1', 'cs-webapps.bu.edu']
 
 
@@ -85,7 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cs412.wsgi.application'
 
-
+## CS-WEBAPPS DEPLOYMENT CHANGE: change database to use local sqlite3 database 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -141,6 +143,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+## CS-WEBAPPS DEPLOYMENT CHANGE: hard code cs username into static_url
 STATIC_URL = 'tanth/static/'
 import os #operating systems library
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -148,6 +151,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
+## CS-WEBAPPS DEPLOYMENT CHANGE: make sure media directory is relative and not absolute
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = 'media/'
 
