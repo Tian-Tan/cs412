@@ -12,3 +12,12 @@ class CreateProfileForm(forms.ModelForm):
         '''
         model = Profile
         fields = ['first_name', 'last_name', 'email', 'profile_image']
+
+class UpdateProfileForm(forms.ModelForm):
+    ''' A form to update a profile
+    '''
+    class Meta:
+        ''' Associate this HTML form with the Profile data model
+        '''
+        model = Profile
+        fields = ['first_name', 'last_name', 'email', 'profile_image']

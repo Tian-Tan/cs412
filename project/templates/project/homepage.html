@@ -36,12 +36,20 @@
         </div>
     </div>
 
-    <!-- Login and Sign-Up Buttons -->
     <div class="row text-center mt-4">
-        <div class="col">
-            <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
-            <a href="#" class="btn btn-success btn-lg">Sign Up</a>
-        </div>
+        {% if request.user.is_authenticated %}
+            <!-- Show "My Profile" button if logged in -->
+            <div class="col">
+                <a href="{% url 'show_profile' profile.pk %}" class="btn btn-primary btn-lg me-2">My Profile</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">Logout</a>
+            </div>
+        {% else %}
+            <!-- Show Login and Sign Up buttons if not logged in -->
+            <div class="col">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+                <a href="{% url 'sign_up' %}" class="btn btn-success btn-lg">Sign Up</a>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

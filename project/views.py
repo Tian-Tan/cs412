@@ -1,11 +1,12 @@
 ## project/views.py
 ## define the views for the project
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # additional imports
-from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
 from django.urls import reverse
 
@@ -24,9 +25,20 @@ class HomepageView(TemplateView):
         '''
         # Get the default context data
         context = super().get_context_data(**kwargs)
+
         # Add additional data for book count and user count
         context['book_count'] = Book.objects.count()
         context['user_count'] = User.objects.count()
+
+        # Add the user's profile if the user is authenticated
+        if self.request.user.is_authenticated:
+            try:
+                context['profile'] = Profile.objects.get(user=self.request.user)
+            except Profile.DoesNotExist:
+                context['profile'] = None
+        else:
+            context['profile'] = None
+
         return context
 
 class ShowAllBooksView(ListView):
@@ -100,3 +112,25 @@ class SignUpProfileView(CreateView):
         ''' Return the URL to redirect to on success
         '''
         return reverse('show_profile', kwargs={'pk':self.object.pk})
+    
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    ''' A view to update a profile
+    '''
+    form_class = UpdateProfileForm
+    template_name = "project/update_profile.html"
+    model = Profile
+
+    def get_success_url(self):
+        ''' Return the URL to redirect to on success
+        '''
+        return reverse('show_profile', kwargs={'pk':self.object.pk})
+    
+    def get_login_url(self) -> str:
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
+    
+    def get_object(self):
+        ''' Return the Profile who called the update
+        '''
+        return get_object_or_404(Profile, user=self.request.user)

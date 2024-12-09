@@ -19,7 +19,7 @@
                         {% if request.GET.next %}
                         <input type="hidden" name="next" value="{{ request.GET.next }}">
                         {% else %}
-                        <input type="hidden" name="next" value="{% url 'show_all_books' %}">
+                        <input type="hidden" name="next" value="{% url 'home' %}">
                         {% endif %}
                         <!-- Submit Button -->
                         <div class="d-grid">

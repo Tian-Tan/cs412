@@ -32,7 +32,6 @@
                 {% if request.user.is_authenticated %}
                     <!-- Show logged-in user -->
                     <span style="margin-right: 20px;">Logged in as <strong>{{ request.user.username }}</strong></span>
-                    <a href="#" class="btn btn-outline-primary me-3">My Profile</a>
                     <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
                 {% else %}
                     <!-- Show Login and Sign Up buttons if not logged in -->
