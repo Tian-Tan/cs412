@@ -13,6 +13,8 @@ urlpatterns = [
     path(r'book/<int:pk>', views.ShowBookView.as_view(), name="show_book"),
     path(r'profile/<int:pk>', views.ShowProfileView.as_view(), name="show_profile"),
     path(r'profile/update', views.UpdateProfileView.as_view(), name="update_profile"),
+    path(r'profile/add_friend/<int:other_pk>', views.CreateFriendView.as_view(), name="add_friend"),
+    path(r'profile/friend_suggestions', views.ShowFriendSuggestionsView.as_view(), name="show_friend_suggestions"),
 
     # authentication URLs
     path(r'login/', auth_views.LoginView.as_view(template_name='project/login.html'), name="login"),

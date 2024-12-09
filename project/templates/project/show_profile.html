@@ -26,6 +26,37 @@
                 <a href="{% url 'update_profile' %}" class="btn btn-primary btn-lg me-2">Update Profile</a>
             </div>
             {% endif %}
+
+            <!-- Friends Section -->
+            <div id="profile-friends" class="mt-5">
+                {% if profile.get_friends %}
+                <h2>Friends</h2>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    {% for friend in profile.get_friends %}
+                    <div class="col text-center">
+                        <a href="{% url 'show_profile' friend.pk %}">
+                            {% if friend.profile_image %}
+                            <img src="{{ friend.profile_image.url }}" alt="{{ friend.first_name }}" class="rounded-circle" width="80" height="80">
+                            {% else %}
+                            <p>No profile image</p>
+                            {% endif %}
+                        </a>
+                        <a href="{% url 'show_profile' friend.pk %}">
+                            <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <h5>No Friends</h5>
+                {% endif %}
+                <!-- Friend Suggestions Button -->
+                {% if request.user == profile.user %}
+                <div class="d-grid gap-2 mt-3">
+                    <a href="{% url 'show_friend_suggestions' %}" class="btn btn-secondary btn-lg">Friend Suggestions</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

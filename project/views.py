@@ -1,10 +1,10 @@
 ## project/views.py
 ## define the views for the project
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 # additional imports
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, View
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
@@ -69,6 +69,13 @@ class ShowProfileView(DetailView):
     template_name = 'project/show_profile.html'
     context_object_name = 'profile'
 
+    def get_context_data(self, **kwargs):
+        ''' Add 'is_owner' to context, True if the logged-in user owns the profile
+        '''
+        context = super().get_context_data(**kwargs)
+        context['is_owner'] = self.request.user == self.get_object().user
+        return context
+
 class SignUpProfileView(CreateView):
     ''' A view to allow for profile sign up
         GET: send back the form for display
@@ -132,5 +139,44 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     
     def get_object(self):
         ''' Return the Profile who called the update
+        '''
+        return get_object_or_404(Profile, user=self.request.user)
+    
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
+    ''' View to show friend suggestions
+    '''
+    model = Profile # the model to display
+    template_name = 'project/friend_suggestions.html'
+    context_object_name = 'profile'
+
+    def get_login_url(self) -> str:
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
+    
+    def get_object(self):
+        ''' Return the Profile who called the add Friend
+        '''
+        return get_object_or_404(Profile, user=self.request.user)
+    
+class CreateFriendView(LoginRequiredMixin, View):
+    ''' A view to create a new Friend relation
+    '''
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        other_pk = self.kwargs['other_pk']
+        profile = Profile.objects.get(user=user)
+        other_profile = Profile.objects.get(pk=other_pk)
+        profile.add_friend(other_profile)
+
+        return redirect(reverse('show_profile', kwargs={'pk':profile.pk}))
+    
+    def get_login_url(self) -> str:
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
+    
+    def get_object(self):
+        ''' Return the Profile who called the add Friend
         '''
         return get_object_or_404(Profile, user=self.request.user)

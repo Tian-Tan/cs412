@@ -5,7 +5,7 @@ from django.db import models
 # authentication imports
 from django.contrib.auth.models import User
 # additional imports
-import uuid
+import uuid, random
 from datetime import timedelta
 from django.utils.timezone import now
 
@@ -24,6 +24,29 @@ class Profile(models.Model):
         ''' Returns a string representation of the Profile Object
         '''
         return f'{self.first_name} {self.last_name}'
+    
+    def get_friends(self):
+        ''' Returns a list of all Profiles who are friends with this Profile
+        '''
+        friends = []
+        for relationship in Friend.objects.filter(profile1=self):
+            friends.append(relationship.profile2)
+        for relationship in Friend.objects.filter(profile2=self):
+            friends.append(relationship.profile1)
+        return friends
+    
+    def add_friend(self, other):
+        ''' Creates a new Friend instance between the profiles self and other
+        '''
+        if (not self == other) and (not Friend.objects.filter(profile1=self, profile2=other).exists()) and (not Friend.objects.filter(profile1=other, profile2=self).exists()):
+            Friend.objects.create(profile1=self, profile2=other)
+    
+    def get_friend_suggestions(self):
+        ''' Returns a list of 2 friend suggestions
+        This is an easy algorithm to recommend 2 friends if they are not already that profile's friend
+        '''
+        return random.sample([profile for profile in Profile.objects.all() if (not(profile == self) and not(profile in self.get_friends()))], 2)
+    
 
 class Book(models.Model):
     ''' Encapsulates the idea of a Book in the library management system
