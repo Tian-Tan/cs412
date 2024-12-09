@@ -1,0 +1,46 @@
+<!-- project/sign_up.html -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Card for Sign-Up Form -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Sign Up</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Sign-Up Form -->
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- UserCreationForm Fields -->
+                        {% for field in user_form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <!-- CreateProfileForm Fields -->
+                        {{ form.as_p }}
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Create Profile</button>
+                        </div>
+                    </form>
+                    <!-- Cancel Button -->
+                    <div class="d-grid gap-2 mt-3">
+                        <form action="{% url 'home' %}">
+                            <button type="submit" class="btn btn-secondary btn-lg">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

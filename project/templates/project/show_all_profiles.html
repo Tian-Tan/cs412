@@ -10,6 +10,7 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {% for profile in profiles %}
         <div class="col">
+            <a href="{% url 'show_profile' profile.pk %}">
             <div class="card h-100">
                 <!-- Profile Image -->
                 {% if profile.profile_image %}
@@ -22,6 +23,7 @@
                     <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
                 </div>
             </div>
+            </a>
         </div>
         {% endfor %}
     </div>

@@ -1,0 +1,30 @@
+<!-- project/show_profile.html -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Cover Section -->
+        <div class="col-md-4">
+            <div class="card">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" class="card-img-top" alt="{{ profile.first_name }} {{ profile.last_name }}">
+                {% else %}
+                    <p>No profile image</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Profile Details Section -->
+        <div class="col-md-8">
+            <h1 class="display-5">{{ profile.first_name }} {{ profile.last_name }}</h1>
+            <h5 class="text-muted">{{ profile.email }}</h5>
+
+            <!-- Buttons -->
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg me-2">Update Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

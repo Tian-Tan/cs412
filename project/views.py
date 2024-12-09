@@ -4,7 +4,10 @@
 from django.shortcuts import render
 
 # additional imports
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.urls import reverse
 
 # import other components
 from .models import *
@@ -46,3 +49,54 @@ class ShowBookView(DetailView):
     model = Book
     template_name = 'project/show_book.html'
     context_object_name = 'book'
+
+class ShowProfileView(DetailView):
+    ''' A view to show a single Profile
+    '''
+    model = Profile
+    template_name = 'project/show_profile.html'
+    context_object_name = 'profile'
+
+class SignUpProfileView(CreateView):
+    ''' A view to allow for profile sign up
+        GET: send back the form for display
+        POST: process the form and save the new Profile to the database
+    '''
+    form_class = CreateProfileForm
+    template_name = 'project/sign_up.html'
+
+    def get_context_data(self, **kwargs):
+        ''' Add built-in Django UserCreationForm to the context
+        '''
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        ''' Django user creation, login user, and create profile
+        '''
+        # Reconstruct the UserCreationForm with POST data
+        user_form = UserCreationForm(self.request.POST)
+        
+        # Check if both forms are valid
+        if user_form.is_valid():
+            # Save the User instance
+            user = user_form.save()
+            print(f'SignUpProfileView: created user {user}')
+            # log the User in
+            login(self.request, user)
+            print(f'SignUpProfileView: {user} logged in')
+            
+            # Attach the User to the Profile instance before saving
+            form.instance.user = user
+            
+            # Save the Profile and complete the process by calling superclass form_valid
+            return super().form_valid(form)
+        else:
+            # If the user form is invalid, re-render the form with errors
+            return self.form_invalid(form)
+        
+    def get_success_url(self):
+        ''' Return the URL to redirect to on success
+        '''
+        return reverse('show_profile', kwargs={'pk':self.object.pk})
