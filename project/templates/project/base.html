@@ -28,9 +28,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="d-flex ms-auto">
-                <button type="button" class="btn btn-light me-2">Login</button>
-                <button type="button" class="btn btn-light">Sign up</button>
+            <div class="d-flex ms-auto align-items-center">
+                {% if request.user.is_authenticated %}
+                    <!-- Show logged-in user -->
+                    <span style="margin-right: 20px;">Logged in as <strong>{{ request.user.username }}</strong></span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+                {% else %}
+                    <!-- Show Login and Sign Up buttons if not logged in -->
+                    <a href="{% url 'login' %}" class="btn btn-light me-2">Login</a>
+                    <a href="#" class="btn btn-light">Sign up</a>
+                {% endif %}
             </div>
         </nav>
         {% block content %}
