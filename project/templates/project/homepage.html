@@ -1,0 +1,47 @@
+<!-- project/homepage.html -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Welcome to the Library</h1>
+        <p class="lead">Borrow books, make friends, and check out book recommendations here</p>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row text-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="card-body">
+                    <h2 class="display-5">{{ book_count }}</h2>
+                    <p class="h5">Books Available</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+                <div class="card-body">
+                    <h2 class="display-5">{{ user_count }}</h2>
+                    <p class="h5">Users Registered</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="row text-center mt-4">
+        <div class="col">
+            <a href="{% url 'show_all_books' %}" class="btn btn-outline-primary btn-lg me-2">Browse Books</a>
+            <a href="{% url 'show_all_profiles' %}" class="btn btn-outline-primary btn-lg">Browse Users</a>
+        </div>
+    </div>
+
+    <!-- Login and Sign-Up Buttons -->
+    <div class="row text-center mt-4">
+        <div class="col">
+            <a href="#" class="btn btn-primary btn-lg me-2">Login</a>
+            <a href="#" class="btn btn-success btn-lg">Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

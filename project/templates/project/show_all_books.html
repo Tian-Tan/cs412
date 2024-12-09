@@ -2,17 +2,21 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
-<h1>Show all Books</h1>
+<div class="text-center mb-5">
+    <h1 class="display-4">All Books</h1>
+</div>
 <div class="container-fluid mt-4">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-4 justify-content-end">
         {% for b in books %}
             <div class="col">
                 <div class="card bg-light mb-3" style="width: 16rem;">
+                    <a href="{% url 'show_book' b.pk %}">
                     <img class="card-img-top" src="{{b.cover_image.url}}" alt="{{b.cover_image.url}}">
                     <div class="card-body">
                         <h5 class="card-title">{{b.title}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{b.author}}</h6>
                     </div>
+                    </a>
                 </div>
             </div>
         {% endfor %}
