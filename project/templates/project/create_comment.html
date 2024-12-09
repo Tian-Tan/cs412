@@ -1,0 +1,15 @@
+<!-- project/create_comment.html -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="display-5 text-center">Add a Comment to {{ book.title }}</h1>
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+        <a href="{% url 'show_book' book.pk %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

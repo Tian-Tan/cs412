@@ -15,6 +15,9 @@ urlpatterns = [
     path(r'profile/update', views.UpdateProfileView.as_view(), name="update_profile"),
     path(r'profile/add_friend/<int:other_pk>', views.CreateFriendView.as_view(), name="add_friend"),
     path(r'profile/friend_suggestions', views.ShowFriendSuggestionsView.as_view(), name="show_friend_suggestions"),
+    path(r'book/<int:pk>/create_comment/', views.CreateCommentView.as_view(), name='create_comment'),
+    path(r'comment/<int:pk>/delete/', views.DeleteCommentView.as_view(), name='delete_comment'),
+    path(r'comment/<int:pk>/update/', views.UpdateCommentView.as_view(), name='update_comment'),
 
     # authentication URLs
     path(r'login/', auth_views.LoginView.as_view(template_name='project/login.html'), name="login"),

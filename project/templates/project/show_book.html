@@ -21,8 +21,36 @@
             <!-- Buttons -->
             <div class="mt-4">
                 <button class="btn btn-primary btn-lg me-2">Borrow Now</button>
+                <a href="{% url 'create_comment' book.pk %}" class="btn btn-secondary btn-lg">Add Comment</a>
             </div>
         </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-5">
+        <h2>Comments</h2>
+        {% if book.comment_set.all %}
+            {% for comment in book.comment_set.all %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <!-- Comment Details -->
+                    <h5 class="card-title">{{ comment.profile.first_name }} {{ comment.profile.last_name }}</h5>
+                    <p class="card-text">{{ comment.comment }}</p>
+                    <p class="text-muted"><small>Posted on {{ comment.timestamp }}</small></p>
+
+                    <!-- User-Specific Buttons -->
+                    {% if request.user == comment.profile.user %}
+                    <div class="d-flex justify-content-end">
+                        <a href="{% url 'update_comment' comment.pk %}" class="btn btn-sm btn-primary me-2">Update</a>
+                        <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No comments yet. Add your comment!</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -21,3 +21,21 @@ class UpdateProfileForm(forms.ModelForm):
         '''
         model = Profile
         fields = ['first_name', 'last_name', 'email', 'profile_image']
+
+class CreateCommentForm(forms.ModelForm):
+    ''' A form to add a new comment for a book
+    '''
+    class Meta:
+        ''' Associate this HTML form with the Comment data model
+        '''
+        model = Comment
+        fields = ['comment']
+
+class UpdateCommentForm(forms.ModelForm):
+    ''' A form to update a comment
+    '''
+    class Meta:
+        ''' Associate this HTML form with the Comment data model
+        '''
+        model = Comment
+        fields = ['comment']
