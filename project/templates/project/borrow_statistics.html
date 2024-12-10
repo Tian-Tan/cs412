@@ -1,0 +1,32 @@
+<!-- project/borrow_statistics.html -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Borrow Statistics</h1>
+
+    <!-- Summary -->
+    <div class="mt-4">
+        <p>Total Borrows: {{ total_borrows }}</p>
+        <p>Active Borrows: {{ active_borrows }}</p>
+        <p>Returned Borrows: {{ returned_borrows }}</p>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="mt-5">
+        <h3>Borrow Status Distribution</h3>
+        <div>
+            {{ pie_chart_div|safe }}
+        </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="mt-5">
+        <h3>Top 5 Most Borrowed Books</h3>
+        <div>
+            {{ bar_chart_div|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

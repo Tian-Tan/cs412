@@ -9,7 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from plotly.express import pie, bar
+from django.db.models import Count
 
 # import other components
 from .models import *
@@ -355,3 +356,53 @@ class ReturnBookView(LoginRequiredMixin, View):
         ''' Return the URL of the login page
         '''
         return reverse('login')
+    
+class BorrowStatisticsView(ListView):
+    ''' A view to display borrow statistics
+    '''
+    model = Borrow
+    template_name = "project/borrow_statistics.html"
+    context_object_name = "borrows"
+
+    def get_context_data(self, **kwargs):
+        ''' Add statistics and graphs to the context
+        '''
+        context = super().get_context_data(**kwargs)
+
+        # Total borrows
+        total_borrows = self.get_queryset().count()
+
+        # Active and returned borrows
+        active_borrows = self.get_queryset().filter(returned_date__isnull=True).count()
+        returned_borrows = self.get_queryset().filter(returned_date__isnull=False).count()
+
+        # Most borrowed books
+        most_borrowed_books = (
+            self.get_queryset()
+            .values("book__title")
+            .annotate(count=Count("id"))
+            .order_by("-count")[:5]
+        )
+
+        # Pie chart for active vs returned borrows
+        pie_chart_div = pie(
+            names=["Active Borrows", "Returned Borrows"],
+            values=[active_borrows, returned_borrows],
+            title="Borrow Status Distribution",
+        ).to_html(full_html=False)
+
+        # Bar chart for most borrowed books
+        bar_chart_div = bar(
+            x=[entry["book__title"] for entry in most_borrowed_books],
+            y=[entry["count"] for entry in most_borrowed_books],
+            title="Top 5 Most Borrowed Books",
+        ).to_html(full_html=False)
+
+        # Add graphs to the context
+        context['total_borrows'] = total_borrows
+        context['active_borrows'] = active_borrows
+        context['returned_borrows'] = returned_borrows
+        context['pie_chart_div'] = pie_chart_div
+        context['bar_chart_div'] = bar_chart_div
+
+        return context

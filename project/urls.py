@@ -20,6 +20,7 @@ urlpatterns = [
     path(r'comment/<int:pk>/update/', views.UpdateCommentView.as_view(), name='update_comment'),
     path(r'book/<int:pk>/borrow/', views.BorrowBookView.as_view(), name='borrow_book'),
     path(r'borrow/<int:pk>/return/', views.ReturnBookView.as_view(), name='return_book'),
+    path(r'statistics', views.BorrowStatisticsView.as_view(), name="borrow_statistics"),
 
     # authentication URLs
     path(r'login/', auth_views.LoginView.as_view(template_name='project/login.html'), name="login"),

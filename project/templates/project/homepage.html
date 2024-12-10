@@ -38,7 +38,7 @@
 
     <div class="row text-center mt-4">
         {% if request.user.is_authenticated %}
-            <!-- Show "My Profile" button if logged in -->
+            <!-- Show "My Profile" and Logout buttons if logged in -->
             <div class="col">
                 <a href="{% url 'show_profile' profile.pk %}" class="btn btn-primary btn-lg me-2">My Profile</a>
                 <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">Logout</a>
