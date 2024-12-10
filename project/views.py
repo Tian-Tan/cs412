@@ -440,34 +440,3 @@ class ScanQRCodeView(View):
         if request.method == 'GET':
             # Render the QR code scanning page
             return render(request, "project/scan_qr_code.html")
-
-        if request.method == 'POST':
-            # Get the scanned QR code data
-            scanned_uuid = request.POST.get("scanned_uuid")
-
-            if not scanned_uuid:
-                return render(request, "project/scan_qr_code.html", {
-                    "error_message": "No QR code was scanned. Please try again."
-                })
-
-            # Find the book by its UUID
-            book = get_object_or_404(Book, barcode_id=scanned_uuid)
-
-            # Check if the book is already borrowed
-            if Borrow.objects.filter(book=book, returned_date__isnull=True).exists():
-                return render(request, "project/scan_qr_code.html", {
-                    "error_message": f"The book '{book.title}' is already borrowed."
-                })
-
-            # Get the logged-in user's profile
-            profile = get_object_or_404(Profile, user=request.user)
-
-            # Create a borrow record
-            Borrow.objects.create(
-                book=book,
-                profile=profile,
-                due_date=now() + timedelta(weeks=1)
-            )
-
-            # Redirect to the book details page
-            return redirect("show_book", pk=book.pk)
