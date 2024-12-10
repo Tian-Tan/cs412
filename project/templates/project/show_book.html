@@ -3,6 +3,21 @@
 
 {% block content %}
 <div class="container mt-5">
+    <!-- Alerts -->
+    {% if request.GET.alert %}
+        {% if request.GET.alert == "already_borrowed" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                This book is already borrowed
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% elif request.GET.alert == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                You have successfully borrowed this book
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endif %}
+
     <div class="row">
         <!-- Book Cover Section -->
         <div class="col-md-4">
@@ -20,7 +35,15 @@
 
             <!-- Buttons -->
             <div class="mt-4">
-                <button class="btn btn-primary btn-lg me-2">Borrow Now</button>
+                <form method="POST" action="{% url 'borrow_book' book.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg me-2" {% if is_borrowed %}disabled{% endif %}>
+                        Borrow Now
+                    </button>
+                </form>
+                {% if is_borrowed %}
+                    <p class="text-danger mt-2">This book is already borrowed.</p>
+                {% endif %}
                 <a href="{% url 'create_comment' book.pk %}" class="btn btn-secondary btn-lg">Add Comment</a>
             </div>
         </div>

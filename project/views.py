@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # import other components
 from .models import *
@@ -62,6 +63,16 @@ class ShowBookView(DetailView):
     template_name = 'project/show_book.html'
     context_object_name = 'book'
 
+    def get_context_data(self, **kwargs):
+        ''' Add context for borrowing status
+        '''
+        context = super().get_context_data(**kwargs)
+        book = self.get_object()
+
+        # Check if the book is currently borrowed
+        context['is_borrowed'] = Borrow.objects.filter(book=book, returned_date__isnull=True).exists()
+        return context
+
 class ShowProfileView(DetailView):
     ''' A view to show a single Profile
     '''
@@ -70,10 +81,14 @@ class ShowProfileView(DetailView):
     context_object_name = 'profile'
 
     def get_context_data(self, **kwargs):
-        ''' Add 'is_owner' to context, True if the logged-in user owns the profile
+        ''' Add 'is_owner' to context, True if the logged-in user owns the profile. Also add borrowed_books to see all borrows of this user
         '''
         context = super().get_context_data(**kwargs)
         context['is_owner'] = self.request.user == self.get_object().user
+        profile = self.get_object()
+        borrowed_books = Borrow.objects.filter(profile=profile, returned_date__isnull=True)
+        context['borrowed_books'] = borrowed_books
+        context['past_borrows'] = Borrow.objects.filter(profile=profile, returned_date__isnull=False)
         return context
 
 class SignUpProfileView(CreateView):
@@ -274,6 +289,68 @@ class UpdateCommentView(LoginRequiredMixin, UpdateView):
         # Reverse to show the book page
         return reverse('show_book', kwargs={'pk': book.pk})
 
+    def get_login_url(self):
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
+    
+
+class BorrowBookView(LoginRequiredMixin, View):
+    ''' A view to handle borrowing a book
+    '''
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' Handles the borrow logic
+        '''
+        # Get the book object
+        book = get_object_or_404(Book, pk=self.kwargs['pk'])
+
+        # Check if the book is already borrowed and not returned
+        if Borrow.objects.filter(book=book, returned_date__isnull=True).exists():
+            # Redirect to the book detail page with an error message
+            return redirect(f"{reverse('show_book', kwargs={'pk': book.pk})}?alert=already_borrowed")
+
+        # If it's a POST request, handle the borrow logic
+        if request.method == 'POST':
+            # Get the profile of the logged-in user
+            profile = get_object_or_404(Profile, user=request.user)
+
+            # Create a new borrow record
+            Borrow.objects.create(
+                book=book,
+                profile=profile,
+                due_date=now() + timedelta(weeks=1)
+            )
+
+            # Redirect to the book detail page with a success message
+            return redirect(f"{reverse('show_book', kwargs={'pk': book.pk})}?alert=success")
+
+        # If it's not a POST request, redirect to the book detail page
+        return redirect(reverse('show_book', kwargs={'pk': book.pk}))
+    
+    def get_login_url(self):
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
+    
+class ReturnBookView(LoginRequiredMixin, View):
+    ''' A view to return a borrowed book
+    '''
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' Handles the return logic
+        '''
+        # Get the borrow instance
+        borrow = get_object_or_404(Borrow, pk=self.kwargs['pk'], profile__user=request.user)
+
+        # Mark the book as returned
+        borrow.returned_date = now()
+        borrow.save()
+
+        # Redirect to the user's profile page
+        profile = get_object_or_404(Profile, user=self.request.user)
+        return redirect('show_profile', pk=profile.pk)
+    
     def get_login_url(self):
         ''' Return the URL of the login page
         '''

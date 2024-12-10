@@ -59,5 +59,43 @@
             </div>
         </div>
     </div>
+
+    <!-- Borrowed Books Section -->
+    <div class="mt-5">
+        <h2>Borrowed Books</h2>
+        {% if borrowed_books %}
+            {% for borrow in borrowed_books %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ borrow.book.title }}</h5>
+                    <p class="text-muted">Due Date: {{ borrow.due_date }}</p>
+                    <a href="{% url 'return_book' borrow.pk %}" class="btn btn-success btn-sm">Return Book</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>You have no borrowed books.</p>
+        {% endif %}
+    </div>
+
+    <!-- Past Borrows Section -->
+    <div class="mt-5">
+        <h2>Past Borrows</h2>
+        {% if past_borrows %}
+            {% for borrow in past_borrows %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ borrow.book.title }}</h5>
+                    <p class="text-muted">
+                        Borrowed on: {{ borrow.checkout_date }}<br>
+                        Returned on: {{ borrow.returned_date }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>You have no past borrows.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

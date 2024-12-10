@@ -69,7 +69,7 @@ class Borrow(models.Model):
     # data attributes for a Borrow object
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     book = models.ForeignKey("Book", on_delete=models.CASCADE)
-    checkout_date = models.DateTimeField(auto_now=True)
+    checkout_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(default=(now() + timedelta(weeks=1))) # set automatically to 1 week from now
     returned_date = models.DateTimeField(blank=True, null=True)
 

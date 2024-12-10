@@ -18,6 +18,8 @@ urlpatterns = [
     path(r'book/<int:pk>/create_comment/', views.CreateCommentView.as_view(), name='create_comment'),
     path(r'comment/<int:pk>/delete/', views.DeleteCommentView.as_view(), name='delete_comment'),
     path(r'comment/<int:pk>/update/', views.UpdateCommentView.as_view(), name='update_comment'),
+    path(r'book/<int:pk>/borrow/', views.BorrowBookView.as_view(), name='borrow_book'),
+    path(r'borrow/<int:pk>/return/', views.ReturnBookView.as_view(), name='return_book'),
 
     # authentication URLs
     path(r'login/', auth_views.LoginView.as_view(template_name='project/login.html'), name="login"),
