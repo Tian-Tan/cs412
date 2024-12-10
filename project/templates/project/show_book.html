@@ -45,6 +45,8 @@
                     <p class="text-danger mt-2">This book is already borrowed.</p>
                 {% endif %}
                 <a href="{% url 'create_comment' book.pk %}" class="btn btn-secondary btn-lg">Add Comment</a>
+                <!-- QR Code Button -->
+                <a href="{% url 'book_qr_code' book.pk %}" class="btn btn-secondary btn-lg">View QR Code</a>
             </div>
         </div>
     </div>

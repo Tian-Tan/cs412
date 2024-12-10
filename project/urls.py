@@ -21,6 +21,8 @@ urlpatterns = [
     path(r'book/<int:pk>/borrow/', views.BorrowBookView.as_view(), name='borrow_book'),
     path(r'borrow/<int:pk>/return/', views.ReturnBookView.as_view(), name='return_book'),
     path(r'statistics', views.BorrowStatisticsView.as_view(), name="borrow_statistics"),
+    path(r'book/<int:pk>/qr/', views.BookQRView.as_view(), name='book_qr_code'),
+    path(r"scan_qr_code/", views.ScanQRCodeView.as_view(), name="scan_qr_code"),
 
     # authentication URLs
     path(r'login/', auth_views.LoginView.as_view(template_name='project/login.html'), name="login"),

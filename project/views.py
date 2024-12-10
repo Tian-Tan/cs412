@@ -11,6 +11,7 @@ from django.contrib.auth import login
 from django.urls import reverse
 from plotly.express import pie, bar
 from django.db.models import Count
+import requests
 
 # import other components
 from .models import *
@@ -406,3 +407,67 @@ class BorrowStatisticsView(ListView):
         context['bar_chart_div'] = bar_chart_div
 
         return context
+    
+class BookQRView(DetailView):
+    ''' A view to generate and display a QR code for a book
+    '''
+    model = Book
+    template_name = "project/book_qr_code.html"
+    context_object_name = "book"
+
+    def get_context_data(self, **kwargs):
+        ''' Add qr code url that can be rendered to context
+        '''
+        context = super().get_context_data(**kwargs)
+
+        # Get the book object
+        book = self.get_object()
+
+        # Generate the QR code URL using the qrserver API
+        base_api_url = "https://api.qrserver.com/v1/create-qr-code/"
+        qr_code_url = f"{base_api_url}?data={book.barcode_id}&size=200x200"
+
+        # Add the QR code URL to the context
+        context['qr_code_url'] = qr_code_url
+        return context
+    
+class ScanQRCodeView(View):
+    ''' A view to borrow a book by scanning its QR code
+    '''
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' Handle GET and POST requests '''
+        if request.method == 'GET':
+            # Render the QR code scanning page
+            return render(request, "project/scan_qr_code.html")
+
+        if request.method == 'POST':
+            # Get the scanned QR code data
+            scanned_uuid = request.POST.get("scanned_uuid")
+
+            if not scanned_uuid:
+                return render(request, "project/scan_qr_code.html", {
+                    "error_message": "No QR code was scanned. Please try again."
+                })
+
+            # Find the book by its UUID
+            book = get_object_or_404(Book, barcode_id=scanned_uuid)
+
+            # Check if the book is already borrowed
+            if Borrow.objects.filter(book=book, returned_date__isnull=True).exists():
+                return render(request, "project/scan_qr_code.html", {
+                    "error_message": f"The book '{book.title}' is already borrowed."
+                })
+
+            # Get the logged-in user's profile
+            profile = get_object_or_404(Profile, user=request.user)
+
+            # Create a borrow record
+            Borrow.objects.create(
+                book=book,
+                profile=profile,
+                due_date=now() + timedelta(weeks=1)
+            )
+
+            # Redirect to the book details page
+            return redirect("show_book", pk=book.pk)

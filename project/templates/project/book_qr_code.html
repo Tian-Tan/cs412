@@ -1,0 +1,13 @@
+<!-- project/book_qr_code.html -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1>QR Code for {{ book.title }}</h1>
+    <img src="{{ qr_code_url }}" alt="QR Code">
+    <div class="mt-4">
+        <a href="{% url 'show_book' book.pk %}" class="btn btn-secondary">Back to Book Details</a>
+    </div>
+</div>
+{% endblock %}

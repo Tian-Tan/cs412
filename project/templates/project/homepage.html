@@ -38,8 +38,9 @@
 
     <div class="row text-center mt-4">
         {% if request.user.is_authenticated %}
-            <!-- Show "My Profile" and Logout buttons if logged in -->
+            <!-- Show "Scan QR Code", "My Profile" and Logout buttons if logged in -->
             <div class="col">
+                <a href="{% url 'scan_qr_code' %}" class="btn btn-info btn-lg">Scan QR Code</a>
                 <a href="{% url 'show_profile' profile.pk %}" class="btn btn-primary btn-lg me-2">My Profile</a>
                 <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">Logout</a>
             </div>
