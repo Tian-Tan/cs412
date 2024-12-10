@@ -8,5 +8,81 @@
 <div class="container mt-5 text-center">
     <h1>Scan QR Code to Borrow a Book</h1>
     <p>Allow camera access and point it at the QR code.</p>
-    <p>Coming soon!</p>
+
+    <!-- Camera Video Feed -->
+    <video id="camera-stream" autoplay playsinline style="width: 100%; max-width: 400px; margin: auto;"></video>
+
+    <!-- QR Code Scan Result -->
+    <p id="qr-code-result" class="text-success mt-3"></p>
+
+    <!-- Hidden Form to Submit the QR Code to the Django backend -->
+    <form method="POST" id="qr-form" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" id="scanned_uuid" name="scanned_uuid">
+        <button type="submit" class="btn btn-primary mt-3">Borrow Book</button>
+    </form>
+
+    <!-- Back Button -->
+    <div class="mt-4">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Homepage</a>
+    </div>
+</div>
+
+<!-- Include jsQR Library through a CDN, this adds all of the JS functions required for decoding qr codes -->
+<!-- Source: https://github.com/cozmo/jsQR -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+
+<script>
+    // Set constants
+    const videoElement = document.getElementById("camera-stream");
+    const qrResultElement = document.getElementById("qr-code-result");
+    const scannedUuidInput = document.getElementById("scanned_uuid");
+    const qrForm = document.getElementById("qr-form");
+
+    // Access the camera
+    async function startCamera() {
+        try {
+            // Use the HTML built in getUserMedia function to get user video
+            // Reference: https://www.digitalocean.com/community/tutorials/front-and-rear-camera-access-with-javascripts-getusermedia
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            videoElement.srcObject = stream;
+
+            // Process video frames
+            const videoCanvas = document.createElement("canvas");
+            const videoContext = videoCanvas.getContext("2d");
+
+            // Plays the camera feed onto screen
+            videoElement.addEventListener("play", () => {
+                const scanFrame = () => {
+                    if (videoElement.paused || videoElement.ended) return;
+
+                    // Draw video frame onto canvas
+                    videoCanvas.width = videoElement.videoWidth;
+                    videoCanvas.height = videoElement.videoHeight;
+                    videoContext.drawImage(videoElement, 0, 0, videoCanvas.width, videoCanvas.height);
+
+                    // Decode QR code through the jsQR function
+                    const imageData = videoContext.getImageData(0, 0, videoCanvas.width, videoCanvas.height);
+                    const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+
+                    if (qrCode) {
+                        qrResultElement.textContent = `QR Code Scanned: ${qrCode.data}`;
+                        scannedUuidInput.value = qrCode.data;
+                        qrForm.style.display = "block";
+                        return;
+                    }
+
+                    requestAnimationFrame(scanFrame);
+                };
+
+                scanFrame();
+            });
+        } catch (error) {
+            // Catch any errors
+            qrResultElement.textContent = `Error accessing camera: ${error}`;
+        }
+    }
+    // Starts camera
+    document.addEventListener("DOMContentLoaded", startCamera);
+</script>
 {% endblock %}
