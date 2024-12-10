@@ -40,7 +40,7 @@
             <div class="mt-4">
                 <form method="POST" action="{% url 'borrow_book' book.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-lg me-2" {% if is_borrowed %}disabled{% endif %}>
+                    <button type="submit" class="btn btn-primary btn-lg me-2" {% if is_borrowed %}disabled{% endif %} {% if not request.user.is_authenticated %}disabled{% endif %}>
                         Borrow Now
                     </button>
                 </form>
