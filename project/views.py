@@ -203,6 +203,11 @@ class CreateCommentView(LoginRequiredMixin, CreateView):
         ''' Return the URL to redirect to on success
         '''
         return reverse('show_book', kwargs={'pk': self.kwargs['pk']})
+    
+    def get_login_url(self) -> str:
+        ''' Return the URL of the login page
+        '''
+        return reverse('login')
 
     def form_valid(self, form):
         ''' This method is called after the form is validated, before saving data to the database

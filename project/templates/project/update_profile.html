@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body">
                     <!-- Update Profile Form -->
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% for field in form %}
                         <div class="mb-3">
