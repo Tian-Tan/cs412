@@ -1,4 +1,5 @@
 ## project/views.py
+## Author: Tian Herng Tan (tanth@bu.edu), 12/10/2024
 ## define the views for the project
 
 from django.shortcuts import render, get_object_or_404, redirect
@@ -180,6 +181,8 @@ class CreateFriendView(LoginRequiredMixin, View):
     ''' A view to create a new Friend relation
     '''
     def dispatch(self, request, *args, **kwargs):
+        ''' Adds the friend relation using the fuction of the profile
+        '''
         user = self.request.user
         other_pk = self.kwargs['other_pk']
         profile = Profile.objects.get(user=user)

@@ -1,4 +1,5 @@
 ## project/admin.py
+## Author: Tian Herng Tan (tanth@bu.edu), 12/10/2024
 ## register the models with the Django Admin portal
 
 from django.contrib import admin

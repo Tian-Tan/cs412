@@ -1,4 +1,5 @@
 ## project/models.py
+## Author: Tian Herng Tan (tanth@bu.edu), 12/10/2024
 ## define the data objects used in the project
 
 from django.db import models

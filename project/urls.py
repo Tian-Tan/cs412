@@ -1,4 +1,6 @@
 ## project/urls.py
+## Author: Tian Herng Tan (tanth@bu.edu), 12/10/2024
+## define the urls for this project
 
 from django.urls import path
 from django.conf import settings
